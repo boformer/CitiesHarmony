@@ -25,7 +25,7 @@ namespace CitiesHarmony.API {
             } else {
                 _harmonyReadyActions.Add(action);
 
-                if (_workshopItemInstalledSubscribed && SteamWorkshopAvailable) {
+                if (!_workshopItemInstalledSubscribed && SteamWorkshopAvailable) {
                     _workshopItemInstalledSubscribed = true;
                     PlatformService.workshop.eventWorkshopItemInstalled += OnWorkshopItemInstalled;
                 }
