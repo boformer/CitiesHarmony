@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesHarmony", "CitiesHarmony\CitiesHarmony.csproj", "{1821BC25-9494-40B7-8229-945C60C16BC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesHarmony.API", "CitiesHarmony.API\CitiesHarmony.API.csproj", "{A3462C5B-B9A4-4154-9855-F3025E943946}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1821BC25-9494-40B7-8229-945C60C16BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1821BC25-9494-40B7-8229-945C60C16BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1821BC25-9494-40B7-8229-945C60C16BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1821BC25-9494-40B7-8229-945C60C16BC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3462C5B-B9A4-4154-9855-F3025E943946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3462C5B-B9A4-4154-9855-F3025E943946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3462C5B-B9A4-4154-9855-F3025E943946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3462C5B-B9A4-4154-9855-F3025E943946}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {60A1F2F9-555F-4FF8-A240-385170CFB39F}
+	EndGlobalSection
+EndGlobal
