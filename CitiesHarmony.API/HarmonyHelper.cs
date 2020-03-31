@@ -69,8 +69,12 @@ namespace CitiesHarmony.API {
             if (id.AsUInt64 == CitiesHarmonyWorkshopId) {
                 UnityEngine.Debug.Log("CitiesHarmony workshop item subscribed and loaded!");
 
-                foreach (var action in _harmonyReadyActions) RunHarmonyReadyAction(action);
-                _harmonyReadyActions.Clear();
+                if (InvokeHarmonyInstaller()) {
+                    foreach (var action in _harmonyReadyActions) RunHarmonyReadyAction(action);
+                    _harmonyReadyActions.Clear();
+                } else {
+                    UnityEngine.Debug.LogError("Failed to invoke Harmony installer!");
+                }
             }
         }
 
