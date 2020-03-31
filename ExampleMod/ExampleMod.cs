@@ -1,13 +1,15 @@
 ﻿using CitiesHarmony.API;
 using HarmonyLib;
 using ICities;
+using System.Reflection;
 
 namespace ExampleMod {
     public class Mod : IUserMod {        
-        // You can add Harmony 1.2.0.8 as a dependency, but make sure that 0Harmony.dll is not copied to the output directory!
+        // You can add Harmony 2.0.0.9 as a dependency, but make sure that 0Harmony.dll is not copied to the output directory!
         // (0Harmony.dll is provided by CitiesHarmony workshop item)
 
         // Also make sure that HarmonyLib is not referenced in any way in your IUserMod implementation!
+        // Instead, apply your patches from a separate static patcher class!
         // (otherwise it will fail to instantiate the type when CitiesHarmony is not installed)
 
         public string Name => "Harmony 2 Example";
@@ -35,8 +37,9 @@ namespace ExampleMod {
             patched = true;
 
             // Apply your patches here!
-            var harmony = new Harmony(HarmonyId);
-            harmony.PatchAll(typeof(Mod).GetType().Assembly);
+            // Harmony.DEBUG = true;
+            var harmony = new Harmony("boformer.Harmony2Example");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
         public static void UnpatchAll() {
@@ -67,3 +70,4 @@ namespace ExampleMod {
         }
     }
 }
+

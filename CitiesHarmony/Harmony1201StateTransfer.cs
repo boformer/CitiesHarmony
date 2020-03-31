@@ -5,7 +5,13 @@ using System.Linq;
 using System.Reflection;
 
 namespace CitiesHarmony {
-    internal class Harmony1201StateTransfer {
+    /// <summary>
+    /// 1. Reverts Harmony 1.2.0.0 patches that were applied before this mod was loaded.<br/>
+    /// 2. Resets the Harmony shared state so that Harmony 2.x runs without exceptions.<br/>
+    /// 3. Self-patches the Harmony 1.2 assembly so that it redirects all calls to Harmony 2.x.<br/>
+    /// 4. Re-applies the patches using Harmony 2.x
+    /// </summary>
+    public class Harmony1201StateTransfer {
         private Harmony harmony;
         private Assembly assembly;
 

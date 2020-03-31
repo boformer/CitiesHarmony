@@ -67,6 +67,8 @@ namespace CitiesHarmony.API {
 
         private static void OnWorkshopItemInstalled(PublishedFileId id) {
             if (id.AsUInt64 == CitiesHarmonyWorkshopId) {
+                UnityEngine.Debug.Log("CitiesHarmony workshop item subscribed and loaded!");
+
                 foreach (var action in _harmonyReadyActions) RunHarmonyReadyAction(action);
                 _harmonyReadyActions.Clear();
             }

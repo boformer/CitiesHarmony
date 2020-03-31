@@ -2,7 +2,7 @@
 using System.Reflection;
 
 namespace CitiesHarmony {
-    internal static class TypeExtensions {
+    public static class TypeExtensions {
         public static FieldInfo GetFieldOrThrow(this Type type, string name) {
             return type?.GetField(name) ?? throw new Exception($"{name} field not found");
         }
@@ -21,6 +21,10 @@ namespace CitiesHarmony {
 
         public static MethodInfo GetMethodOrThrow(this Type type, string name, Type[] types) {
             return type?.GetMethod(name, types) ?? throw new Exception($"{name} method not found");
+        }
+
+        public static Version GetAssemblyVersion(this Type type) {
+            return type.Assembly.GetName().Version;
         }
     }
 }

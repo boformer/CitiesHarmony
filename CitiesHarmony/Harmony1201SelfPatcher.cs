@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Reflection;
 
 namespace CitiesHarmony {
-    internal static class Harmony1201SelfPatcher {
+    /// <summary>
+    /// Self-patches a Harmony 1.2.0.1 assembly so that it redirects all patch/unpatch calls to Harmony 2.x
+    /// </summary>
+    public static class Harmony1201SelfPatcher {
         public static void Apply(Harmony harmony, Assembly assembly) {
             UnityEngine.Debug.Log($"Patching Harmony {assembly.GetName().Version} assembly ({assembly.FullName})");
 
@@ -109,7 +112,7 @@ namespace CitiesHarmony {
             var HarmonyMethod__before = oldHarmonyMethod.GetType().GetFieldOrThrow("before");
             var HarmonyMethod__after = oldHarmonyMethod.GetType().GetFieldOrThrow("after");
 
-            var harmonyMethod = new HarmonyMethod {
+            return new HarmonyMethod {
                 method = (MethodInfo)HarmonyMethod__method.GetValue(oldHarmonyMethod),
                 declaringType = (Type)HarmonyMethod__declaringType.GetValue(oldHarmonyMethod),
                 methodName = (string)HarmonyMethod__methodName.GetValue(oldHarmonyMethod),
@@ -119,7 +122,6 @@ namespace CitiesHarmony {
                 before = (string[])HarmonyMethod__before.GetValue(oldHarmonyMethod),
                 after = (string[])HarmonyMethod__after.GetValue(oldHarmonyMethod)
             };
-            return harmonyMethod;
         }
     }
 }
