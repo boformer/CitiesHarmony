@@ -20,7 +20,6 @@ namespace CitiesHarmony {
             var PatchProcessor_Unpatch1 = patchProcessorType.GetMethodOrThrow("Unpatch", new Type[] { typeof(MethodInfo) });
             var PatchProcessor_Unpatch2 = patchProcessorType?.GetMethodOrThrow("Unpatch", new Type[] { harmonyPatchTypeType, typeof(string) });
 
-
             harmony.Patch(HarmonyInstance_UnpatchAll, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(HarmonyInstance_UnpatchAll_Prefix))));
             harmony.Patch(PatchProcessor_Patch, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(PatchProcessor_Patch_Prefix))));
             harmony.Patch(PatchProcessor_Unpatch1, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(PatchProcessor_Unpatch1_Prefix))));
@@ -28,8 +27,9 @@ namespace CitiesHarmony {
         }
 
         public static bool HarmonyInstance_UnpatchAll_Prefix(string ___id, string harmonyID) {
+#if DEBUG
             UnityEngine.Debug.Log($"Unpatching all (HarmonyId: {harmonyID})");
-
+#endif
             var harmony = new Harmony(___id);
             harmony.UnpatchAll(harmonyID);
 
@@ -38,9 +38,6 @@ namespace CitiesHarmony {
 
         public static bool PatchProcessor_Patch_Prefix(object ___instance, List<MethodBase> ___originals,
             object ___prefix, object ___postfix, object ___transpiler, ref List<System.Reflection.Emit.DynamicMethod> __result) {
-            // TODO remove
-            UnityEngine.Debug.Log("PatchProcessor_Patch_Prefix");
-
             if (___prefix != null || ___postfix != null || ___transpiler != null) {
                 var harmony = CreateHarmony(___instance);
                 var prefix = CreateHarmonyMethod(___prefix);
@@ -48,9 +45,14 @@ namespace CitiesHarmony {
                 var transpiler = CreateHarmonyMethod(___transpiler);
 
                 foreach (var method in ___originals) {
+#if DEBUG
                     UnityEngine.Debug.Log($"Patching method {method.FullDescription()} (HarmonyId: {harmony.Id})");
+#endif
+                    if (!method.IsDeclaredMember()) {
+                        UnityEngine.Debug.Log($"Attempting to patch non-declared member {method.FullDescription()} (forbidden in Harmony 2.x)! Getting closest declared member for backwards compatibility...");
+                    }
 
-                    var processor = harmony.CreateProcessor(method);
+                    var processor = harmony.CreateProcessor(method.GetDeclaredMember());
 
                     if (prefix != null) processor.AddPrefix(prefix);
                     if (postfix != null) processor.AddPostfix(postfix);
@@ -66,13 +68,12 @@ namespace CitiesHarmony {
         }
 
         public static bool PatchProcessor_Unpatch1_Prefix(MethodInfo patch, object ___instance, List<MethodBase> ___originals) {
-            // TODO remove
-            UnityEngine.Debug.Log("PatchProcessor_Unpatch1_Prefix");
-
             var harmony = CreateHarmony(___instance);
 
             foreach (var method in ___originals) {
+#if DEBUG
                 UnityEngine.Debug.Log($"Unpatching method {method.FullDescription()} (HarmonyId: {harmony.Id})");
+#endif
                 harmony.Unpatch(method, patch);
             }
 
@@ -80,13 +81,12 @@ namespace CitiesHarmony {
         }
 
         public static bool PatchProcessor_Unpatch2_Prefix(HarmonyPatchType type, string harmonyID, object ___instance, List<MethodBase> ___originals) {
-            // TODO remove
-            UnityEngine.Debug.Log("PatchProcessor_Unpatch1_Prefix");
-
             var harmony = CreateHarmony(___instance);
 
             foreach (var method in ___originals) {
+#if DEBUG
                 UnityEngine.Debug.Log($"Unpatching patch ({type}) from method {method.FullDescription()} (HarmonyId: {harmony.Id})");
+#endif
                 harmony.Unpatch(method, type, harmonyID);
             }
 
