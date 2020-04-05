@@ -7,10 +7,6 @@
     <AssemblyVersion>1.0.*</AssemblyVersion>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\References\Assembly-CSharp.dll</HintPath>
@@ -30,14 +26,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CitiesHarmony.API" Version="1.0.1">
-      <IncludeAssets>all</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="CitiesHarmony.API" Version="1.0.1" />
   </ItemGroup>
-  <ItemGroup>
-    <TargetFiles Include="$(TargetDir)*.*" />
-  </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="Build">
-    <Copy SourceFiles="@(TargetFiles)" DestinationFolder="$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <Target Name="DeployToModDirectory" AfterTargets="Build">
+    <PropertyGroup>
+      <ModDirectory>$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\</ModDirectory>
+    </PropertyGroup>
+    <ItemGroup>
+      <ModFiles Include="$(TargetDir)*.*" />
+    </ItemGroup>
+    <RemoveDir Directories="$(ModDirectory)" />
+    <Copy SourceFiles="@(ModFiles)" DestinationFolder="$(ModDirectory)" />
   </Target>
 </Project>

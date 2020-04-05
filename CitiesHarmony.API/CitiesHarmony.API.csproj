@@ -12,8 +12,8 @@
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <PackageTags>Games Modding Patching</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>package_icon.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Include="package_icon.png" Pack="true" PackagePath="" />
