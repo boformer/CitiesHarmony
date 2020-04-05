@@ -4,22 +4,13 @@
     <TargetFramework>net35</TargetFramework>
     <Deterministic>false</Deterministic>
     <AssemblyTitle>ExampleMod</AssemblyTitle>
-    <Product>ExampleMod</Product>
-    <Version>1.0.0.0</Version>
     <AssemblyVersion>1.0.*</AssemblyVersion>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Lib.Harmony" Version="2.0.0.9">
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CitiesHarmony.API\CitiesHarmony.API.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\References\Assembly-CSharp.dll</HintPath>
@@ -37,6 +28,11 @@
       <HintPath>C:\References\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CitiesHarmony.API" Version="1.0.1">
+      <IncludeAssets>all</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <TargetFiles Include="$(TargetDir)*.*" />
