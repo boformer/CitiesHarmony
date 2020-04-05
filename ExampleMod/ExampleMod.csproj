@@ -38,9 +38,10 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <TargetFiles Include="$(TargetDir)*.*" />
+  </ItemGroup>
   <Target Name="PostBuild" AfterTargets="Build">
-    <Exec Command="if not exist &quot;$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot; mkdir &quot;$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;" />
-    <Exec Command="del &quot;$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\$(TargetFileName)&quot;" />
-    <Exec Command="xcopy &quot;$(TargetDir)*.*&quot; &quot;$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot; /y /e" />
+    <Copy SourceFiles="@(TargetFiles)" DestinationFolder="$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)" />
   </Target>
 </Project>
