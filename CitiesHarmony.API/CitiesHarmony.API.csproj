@@ -6,7 +6,7 @@
     <Company>boformer</Company>
     <Description>Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop</Description>
     <Copyright>Copyright 2020 boformer</Copyright>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
@@ -37,7 +37,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Lib.Harmony" Version="2.0.0.9">
+    <PackageReference Include="Lib.Harmony" Version="[2.0.0.8,2.0.0.9]">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

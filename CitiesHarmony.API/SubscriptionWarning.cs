@@ -6,25 +6,34 @@ using System.Reflection;
 using System.Text;
 
 namespace CitiesHarmony.API {
-    public class SubscriptionWarning : UnityEngine.MonoBehaviour {
+    public static class SubscriptionWarning {
         private const string Marker = "Harmony2SubscriptionWarning";
 
         public static void ShowOnce() {
             if (UnityEngine.GameObject.Find(Marker)) return;
 
             var go = new UnityEngine.GameObject(Marker);
-            go.AddComponent<SubscriptionWarning>();
-            DontDestroyOnLoad(go);
-        }
+            UnityEngine.Object.DontDestroyOnLoad(go);
 
-        private void Update() {
-            if (UIView.library != null) {
-                Destroy(this);
+            if(LoadingManager.instance.m_currentlyLoading || UIView.library == null) {
+                LoadingManager.instance.m_introLoaded += OnIntroLoaded;
+                LoadingManager.instance.m_levelLoaded += OnLevelLoaded;
+            } else {
                 Show();
             }
         }
 
-        private static void Show() {
+        private static void OnIntroLoaded() {
+            LoadingManager.instance.m_introLoaded -= OnIntroLoaded;
+            Show();
+        }
+
+        private static void OnLevelLoaded(SimulationManager.UpdateMode updateMode) {
+            LoadingManager.instance.m_levelLoaded -= OnLevelLoaded;
+            Show();
+        }
+
+        public static void Show() {
             string reason = "An error occured while attempting to automatically subsribe to Harmony (no network connection?)";
             string solution = "You can manually download the Harmony mod from github.com/boformer/CitiesHarmony/releases";
             if (PlatformService.platformType != PlatformType.Steam) {
