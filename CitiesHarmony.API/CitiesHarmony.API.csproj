@@ -6,11 +6,12 @@
     <Company>boformer</Company>
     <Description>Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop</Description>
     <Copyright>Copyright 2020 boformer</Copyright>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Lock Harmony dependency to 2.0.0.9 (the version shipped with the Harmony mod),
+Improvements to Subscription Warning Panel (no longer runs an Update loop)</PackageReleaseNotes>
     <PackageTags>Games Modding Patching</PackageTags>
     <PackageIcon>package_icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -37,7 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Lib.Harmony" Version="[2.0.0.8,2.0.0.9]">
+    <PackageReference Include="Lib.Harmony" Version="[2.0.0.9]">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
