@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CitiesHarmony {
     public static class Installer {
-        private const string PatchedMarker = "Harmony1201_PatchedMarker";
+        private const string PatchedMarker = "Harmony1_PatchedMarker";
 
         public static void Run() {
             // Empty method, called by CitiesHarmony.API.HarmonyHelper
@@ -15,7 +15,7 @@ namespace CitiesHarmony {
 
             var go = UnityEngine.GameObject.Find(PatchedMarker);
             if (go != null) {
-                UnityEngine.Debug.Log("Harmony 1.2.0.1 has already been patched!");
+                UnityEngine.Debug.Log("Harmony 1.x has already been patched!");
                 return;
             }
 
@@ -24,19 +24,19 @@ namespace CitiesHarmony {
 
             var harmony = new Harmony("CitiesHarmony");
 
-            // Self-patch Harmony 1.2.0.1 assemblies
+            // Self-patch Harmony 1.x assemblies
             var oldHarmonyStateTransferred = false;
 
             void ProcessAssembly(Assembly assembly) {
                 var assemblyName = assembly.GetName();
-                if (assemblyName.Name == "0Harmony" && assemblyName.Version == new Version(1, 2, 0, 1)) {
+                if (assemblyName.Name == "0Harmony" && assemblyName.Version >= new Version(1, 1, 0, 0) && assemblyName.Version < new Version(2, 0, 0, 0)) {
                     try {
                         if (!oldHarmonyStateTransferred) {
                             oldHarmonyStateTransferred = true;
-                            var patcher = new Harmony1201StateTransfer(harmony, assembly);
+                            var patcher = new Harmony1StateTransfer(harmony, assembly);
                             patcher.Patch();
                         } else {
-                            Harmony1201SelfPatcher.Apply(harmony, assembly);
+                            Harmony1SelfPatcher.Apply(harmony, assembly);
                         }
                     } catch (Exception e) {
                         UnityEngine.Debug.LogException(e);
@@ -45,9 +45,11 @@ namespace CitiesHarmony {
             }
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Array.Sort(assemblies, (a, b) => -a.GetName().Version.CompareTo(b.GetName().Version)); // higher harmony versions first!
+
             foreach (var assembly in assemblies) ProcessAssembly(assembly);
 
-            // Patch assembly resolver to make sure that missing 2.x Harmony assembly references are never resolved to 1.2 Harmony!
+            // Patch assembly resolver to make sure that missing 2.x Harmony assembly references are never resolved to 1.x Harmony!
             // This will naturally occur when this mod gets updated to newer Harmony versions.
             AssemblyResolvePatch.Apply(harmony);
 

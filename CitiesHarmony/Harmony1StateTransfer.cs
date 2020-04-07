@@ -6,12 +6,12 @@ using System.Reflection;
 
 namespace CitiesHarmony {
     /// <summary>
-    /// 1. Reverts Harmony 1.2.0.0 patches that were applied before this mod was loaded.<br/>
+    /// 1. Reverts Harmony 1.x patches that were applied before this mod was loaded.<br/>
     /// 2. Resets the Harmony shared state so that Harmony 2.x runs without exceptions.<br/>
     /// 3. Self-patches the Harmony 1.2 assembly so that it redirects all calls to Harmony 2.x.<br/>
     /// 4. Re-applies the patches using Harmony 2.x
     /// </summary>
-    public class Harmony1201StateTransfer {
+    public class Harmony1StateTransfer {
         private Harmony harmony;
         private Assembly assembly;
 
@@ -30,9 +30,11 @@ namespace CitiesHarmony {
 
         private Type harmonyInstanceType;
         private MethodInfo HarmonyInstance_Create;
-        private MethodInfo HarmonyInstance_UnpatchAll;
+        private MethodInfo HarmonyInstance_Unpatch;
 
-        public Harmony1201StateTransfer(Harmony harmony, Assembly assembly) {
+        private object HarmonyPatchType_All;
+
+        public Harmony1StateTransfer(Harmony harmony, Assembly assembly) {
             this.harmony = harmony;
             this.assembly = assembly;
 
@@ -56,7 +58,14 @@ namespace CitiesHarmony {
 
             harmonyInstanceType = assembly.GetType("Harmony.HarmonyInstance") ?? throw new Exception("HarmonyInstance type not found");
             HarmonyInstance_Create = harmonyInstanceType.GetMethodOrThrow("Create", BindingFlags.Public | BindingFlags.Static);
-            HarmonyInstance_UnpatchAll = harmonyInstanceType.GetMethodOrThrow("UnpatchAll", new Type[] { typeof(string) });
+
+            var harmonyPatchTypeType = assembly.GetType("Harmony.HarmonyPatchType") ?? throw new Exception("HarmonyPatchType type not found");
+
+            var unpatchArgTypes = new Type[] { typeof(MethodBase), harmonyPatchTypeType, typeof(string) };
+            HarmonyInstance_Unpatch = HarmonyInstance_Unpatch = harmonyInstanceType.GetMethod("RemovePatch", unpatchArgTypes) // Harmony 1.1.0.0
+                ?? harmonyInstanceType.GetMethodOrThrow("Unpatch", unpatchArgTypes); // Harmony 1.2.0.1
+
+            HarmonyPatchType_All = Enum.ToObject(harmonyPatchTypeType, 0);
         }
 
         public void Patch() {
@@ -93,8 +102,10 @@ namespace CitiesHarmony {
             }
 
             UnityEngine.Debug.Log($"Reverting patches...");
-            var oldInstance = HarmonyInstance_Create.Invoke(null, new object[] { "CitiesHarmony" });
-            HarmonyInstance_UnpatchAll.Invoke(oldInstance, new object[] { null });
+            var oldInstance = HarmonyInstance_Create.Invoke(null, new object[] { "CitiesHarmony" }); 
+            foreach (var method in patchedMethods.ToList()) {
+                HarmonyInstance_Unpatch.Invoke(oldInstance, new object[] { method, HarmonyPatchType_All, null });
+            }
 
             // Reset shared state
             var sharedStateAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name.Contains("HarmonySharedState"));
@@ -107,7 +118,7 @@ namespace CitiesHarmony {
             }
 
             // Apply patches to old harmony
-            Harmony1201SelfPatcher.Apply(harmony, assembly);
+            Harmony1SelfPatcher.Apply(harmony, assembly);
 
             foreach (var processor in processors) {
                 processor.Patch();

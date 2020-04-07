@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace CitiesHarmony {
     /// <summary>
-    /// Self-patches a Harmony 1.2.0.1 assembly so that it redirects all patch/unpatch calls to Harmony 2.x
+    /// Self-patches a Harmony 1.x assembly so that it redirects all patch/unpatch calls to Harmony 2.x
     /// </summary>
-    public static class Harmony1201SelfPatcher {
+    public static class Harmony1SelfPatcher {
         public static void Apply(Harmony harmony, Assembly assembly) {
             UnityEngine.Debug.Log($"Patching Harmony {assembly.GetName().Version} assembly ({assembly.FullName})");
 
@@ -15,15 +15,33 @@ namespace CitiesHarmony {
             var patchProcessorType = assembly.GetType("Harmony.PatchProcessor");
             var harmonyPatchTypeType = assembly.GetType("Harmony.HarmonyPatchType");
 
-            var HarmonyInstance_UnpatchAll = harmonyInstanceType.GetMethodOrThrow("UnpatchAll");
+            var HarmonyInstance_GetPatchedMethods = harmonyInstanceType.GetMethodOrThrow("GetPatchedMethods");
+            var HarmonyInstance_UnpatchAll = harmonyInstanceType.GetMethod("UnpatchAll");
+            var HarmonyInstance_VersionInfo = harmonyInstanceType.GetMethodOrThrow("VersionInfo");
             var PatchProcessor_Patch = patchProcessorType.GetMethodOrThrow("Patch");
             var PatchProcessor_Unpatch1 = patchProcessorType.GetMethodOrThrow("Unpatch", new Type[] { typeof(MethodInfo) });
             var PatchProcessor_Unpatch2 = patchProcessorType?.GetMethodOrThrow("Unpatch", new Type[] { harmonyPatchTypeType, typeof(string) });
 
-            harmony.Patch(HarmonyInstance_UnpatchAll, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(HarmonyInstance_UnpatchAll_Prefix))));
-            harmony.Patch(PatchProcessor_Patch, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(PatchProcessor_Patch_Prefix))));
-            harmony.Patch(PatchProcessor_Unpatch1, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(PatchProcessor_Unpatch1_Prefix))));
-            harmony.Patch(PatchProcessor_Unpatch2, new HarmonyMethod(typeof(Harmony1201SelfPatcher).GetMethod(nameof(PatchProcessor_Unpatch2_Prefix))));
+            harmony.Patch(HarmonyInstance_GetPatchedMethods, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(HarmonyInstance_GetPatchedMethods_Prefix))));
+
+            if (HarmonyInstance_UnpatchAll != null)
+                harmony.Patch(HarmonyInstance_UnpatchAll, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(HarmonyInstance_UnpatchAll_Prefix))));
+            else
+                UnityEngine.Debug.Log("HarmonyInstance.UnpatchAll not found (probably an older Harmony version)");
+
+            harmony.Patch(HarmonyInstance_VersionInfo, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(HarmonyInstance_VersionInfo_Prefix))));
+
+            harmony.Patch(PatchProcessor_Patch, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(PatchProcessor_Patch_Prefix))));
+            harmony.Patch(PatchProcessor_Unpatch1, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(PatchProcessor_Unpatch1_Prefix))));
+            harmony.Patch(PatchProcessor_Unpatch2, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(PatchProcessor_Unpatch2_Prefix))));
+        }
+
+        public static bool HarmonyInstance_GetPatchedMethods_Prefix(string ___id, out IEnumerable<MethodBase> __result) {
+#if DEBUG
+            UnityEngine.Debug.Log($"GetPatchedMethods (HarmonyId: {___id})");
+#endif
+            __result = Harmony.GetAllPatchedMethods();
+            return false;
         }
 
         public static bool HarmonyInstance_UnpatchAll_Prefix(string ___id, string harmonyID) {
@@ -33,6 +51,13 @@ namespace CitiesHarmony {
             var harmony = new Harmony(___id);
             harmony.UnpatchAll(harmonyID);
 
+            return false;
+        }
+        public static bool HarmonyInstance_VersionInfo_Prefix(string ___id, out Version currentVersion, out Dictionary<string, Version> __result) {
+#if DEBUG
+            UnityEngine.Debug.Log($"VersionInfo (HarmonyId: {___id})");
+#endif
+            __result = Harmony.VersionInfo(out currentVersion);
             return false;
         }
 
@@ -103,20 +128,23 @@ namespace CitiesHarmony {
         private static HarmonyMethod CreateHarmonyMethod(object oldHarmonyMethod) {
             if (oldHarmonyMethod == null) return null;
 
-            var HarmonyMethod__method = oldHarmonyMethod.GetType().GetFieldOrThrow("method");
-            var HarmonyMethod__declaringType = oldHarmonyMethod.GetType().GetFieldOrThrow("declaringType");
-            var HarmonyMethod__methodName = oldHarmonyMethod.GetType().GetFieldOrThrow("methodName");
-            var HarmonyMethod__methodType = oldHarmonyMethod.GetType().GetFieldOrThrow("methodType");
-            var HarmonyMethod__argumentTypes = oldHarmonyMethod.GetType().GetFieldOrThrow("argumentTypes");
-            var HarmonyMethod__prioritiy = oldHarmonyMethod.GetType().GetFieldOrThrow("prioritiy"); // typo is intentional
-            var HarmonyMethod__before = oldHarmonyMethod.GetType().GetFieldOrThrow("before");
-            var HarmonyMethod__after = oldHarmonyMethod.GetType().GetFieldOrThrow("after");
+            var type = oldHarmonyMethod.GetType();
+            var HarmonyMethod__method = type.GetFieldOrThrow("method");
+            var HarmonyMethod__declaringType = type.GetField("originalType") // Harmony 1.1.0.0
+                ?? type.GetFieldOrThrow("declaringType"); // Harmony 1.2.0.1
+            var HarmonyMethod__methodName = type.GetFieldOrThrow("methodName");
+            var HarmonyMethod__methodType = type.GetField("methodType"); // doesn't exist in 1.1.0.0
+            var HarmonyMethod__argumentTypes = type.GetField("parameter") // Harmony 1.1.0.0
+                ?? type.GetFieldOrThrow("argumentTypes"); // Harmony 1.2.0.1
+            var HarmonyMethod__prioritiy = type.GetFieldOrThrow("prioritiy"); // typo is intentional
+            var HarmonyMethod__before = type.GetFieldOrThrow("before");
+            var HarmonyMethod__after = type.GetFieldOrThrow("after");
 
             return new HarmonyMethod {
                 method = (MethodInfo)HarmonyMethod__method.GetValue(oldHarmonyMethod),
                 declaringType = (Type)HarmonyMethod__declaringType.GetValue(oldHarmonyMethod),
                 methodName = (string)HarmonyMethod__methodName.GetValue(oldHarmonyMethod),
-                methodType = (MethodType?)HarmonyMethod__methodType.GetValue(oldHarmonyMethod),
+                methodType = (MethodType?)HarmonyMethod__methodType?.GetValue(oldHarmonyMethod),
                 argumentTypes = (Type[])HarmonyMethod__argumentTypes.GetValue(oldHarmonyMethod),
                 priority = (int)HarmonyMethod__prioritiy.GetValue(oldHarmonyMethod),
                 before = (string[])HarmonyMethod__before.GetValue(oldHarmonyMethod),

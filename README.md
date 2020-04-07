@@ -4,7 +4,7 @@
 
 This C:SL mod provides Andreas Pardeike's [Harmony patching library](https://github.com/pardeike/Harmony) (version 2.0.0.9) to all mods that require it.
 
-It hotpatches older Harmony versions (1.2.0.1) that are still used by various mods. This is necessary because Harmony 1.x is incompatible with 2.x.
+It hotpatches older Harmony versions (1.2.0.1 and 1.1.0.0) and adds limited cross-compatibility for Harmony 1.0.9.1. All of those versions are still used by various mods. The patching is necessary because Harmony 1.x is incompatible with 2.x.
 
 The bundled `0Harmony.dll` contains additional bug fixes that are specific to the mono runtime of Cities: Skylines.
 
@@ -31,7 +31,7 @@ Depending on the version of Visual Studio, the project style and the post-build 
 
 ### API Usage
 
-Make sure that there are no references to `HarmonyLib` in your `IUserMod` implementation. 
+**Make sure that there are no references to `HarmonyLib` in your `IUserMod` implementation.**
 Otherwise the mod could not be loaded if CitiesHarmony is not subscribed. Instead, it is recommended to keep `HarmonyLib`-related code (such as calls to `PatchAll` and `UnpatchAll`) in a separate static `Patcher` class.
 
 Before making calls to harmony in your code, you need to query `CitiesHarmony.API.HarmonyHelper` to see if it is available. There are 3 different hooks for that purpose:

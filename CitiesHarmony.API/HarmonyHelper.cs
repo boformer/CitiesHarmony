@@ -54,7 +54,20 @@ namespace CitiesHarmony.API {
             }
 
             if (PluginManager.noWorkshop) {
-                UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony in noWorkshop mode!");
+                UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony in --noWorkshop mode!");
+                SubscriptionWarning.ShowOnce();
+                return;
+            }
+
+            if(!PlatformService.workshop.IsAvailable()) {
+                UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony while workshop is not available");
+                SubscriptionWarning.ShowOnce();
+                return;
+            }
+
+
+            if(IsCitiesHarmonyWorkshopItemSubscribed) {
+                UnityEngine.Debug.LogError("CitiesHarmony workshop item is subscribed, but assembly is not loaded!");
                 SubscriptionWarning.ShowOnce();
                 return;
             }
@@ -83,6 +96,19 @@ namespace CitiesHarmony.API {
                 action();
             } catch (Exception e) {
                 UnityEngine.Debug.LogException(e);
+            }
+        }
+
+        internal static bool IsCitiesHarmonyWorkshopItemSubscribed {
+            get {
+                var subscribedIds = PlatformService.workshop.GetSubscribedItems();
+                if (subscribedIds == null) return false;
+
+                foreach (var id in subscribedIds) {
+                    if (id.AsUInt64 == CitiesHarmonyWorkshopId) return true;
+                }
+
+                return false;
             }
         }
     }
