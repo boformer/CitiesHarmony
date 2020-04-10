@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 
 namespace CitiesHarmony {
@@ -16,6 +18,7 @@ namespace CitiesHarmony {
             var harmonyPatchTypeType = assembly.GetType("Harmony.HarmonyPatchType");
 
             var HarmonyInstance_GetPatchedMethods = harmonyInstanceType.GetMethodOrThrow("GetPatchedMethods");
+            var HarmonyInstance_GetPatchInfo = harmonyInstanceType.GetMethodOrThrow("GetPatchInfo");
             var HarmonyInstance_UnpatchAll = harmonyInstanceType.GetMethod("UnpatchAll");
             var HarmonyInstance_VersionInfo = harmonyInstanceType.GetMethodOrThrow("VersionInfo");
             var PatchProcessor_Patch = patchProcessorType.GetMethodOrThrow("Patch");
@@ -23,6 +26,8 @@ namespace CitiesHarmony {
             var PatchProcessor_Unpatch2 = patchProcessorType?.GetMethodOrThrow("Unpatch", new Type[] { harmonyPatchTypeType, typeof(string) });
 
             harmony.Patch(HarmonyInstance_GetPatchedMethods, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(HarmonyInstance_GetPatchedMethods_Prefix))));
+
+            harmony.Patch(HarmonyInstance_GetPatchInfo, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(HarmonyInstance_GetPatchInfo_Prefix))));
 
             if (HarmonyInstance_UnpatchAll != null)
                 harmony.Patch(HarmonyInstance_UnpatchAll, new HarmonyMethod(typeof(Harmony1SelfPatcher).GetMethod(nameof(HarmonyInstance_UnpatchAll_Prefix))));
@@ -41,6 +46,14 @@ namespace CitiesHarmony {
             UnityEngine.Debug.Log($"GetPatchedMethods (HarmonyId: {___id})");
 #endif
             __result = Harmony.GetAllPatchedMethods();
+            return false;
+        }
+
+        public static bool HarmonyInstance_GetPatchInfo_Prefix(/* HarmonyInstance */ object __instance, string ___id, MethodBase method, out object __result) {
+#if DEBUG
+            UnityEngine.Debug.Log($"GetPatchInfo for {method} (HarmonyId: {___id})");
+#endif
+            __result = CreateOldPatches(__instance.GetType().Assembly, Harmony.GetPatchInfo(method));
             return false;
         }
 
@@ -150,6 +163,41 @@ namespace CitiesHarmony {
                 before = (string[])HarmonyMethod__before.GetValue(oldHarmonyMethod),
                 after = (string[])HarmonyMethod__after.GetValue(oldHarmonyMethod)
             };
+        }
+
+        private static object CreateOldPatches(Assembly oldAssembly, Patches newPatches) {
+            if (newPatches == null) return null;
+
+            var oldPatchesType = oldAssembly.GetType("Harmony.Patches");
+            var oldPatchType = oldAssembly.GetType("Harmony.Patch");
+
+            // Patches(Patch[] prefixes, Patch[] postfixes, Patch[] transpilers)
+            var oldPatches = Activator.CreateInstance(oldPatchesType, new object[] {
+                CreateOldPatchArray(oldPatchType, newPatches.Prefixes),
+                CreateOldPatchArray(oldPatchType, newPatches.Postfixes),
+                CreateOldPatchArray(oldPatchType, newPatches.Transpilers)
+            });
+
+            return oldPatches;
+        }
+
+        private static Array CreateOldPatchArray(Type oldPatchType, ReadOnlyCollection<Patch> array) {
+            var oldArray = Array.CreateInstance(oldPatchType, array.Count);
+
+            for (var i = 0; i < array.Count; i++) {
+                var newPatch = array[i];
+
+                // Patch(MethodInfo patch, int index, string owner, int priority, string[] before, string[] after)
+                oldArray.SetValue(Activator.CreateInstance(oldPatchType, new object[] {
+                    newPatch.PatchMethod,
+                    newPatch.index,
+                    newPatch.owner,
+                    newPatch.priority,
+                    newPatch.before,
+                    newPatch.after
+                }), i);
+            }
+            return oldArray;
         }
     }
 }

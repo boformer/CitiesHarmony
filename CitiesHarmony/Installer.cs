@@ -28,18 +28,26 @@ namespace CitiesHarmony {
             var oldHarmonyStateTransferred = false;
 
             void ProcessAssembly(Assembly assembly) {
+                if (assembly == typeof(Harmony).Assembly) return; // skip our own Harmony assembly
+
                 var assemblyName = assembly.GetName();
-                if (assemblyName.Name == "0Harmony" && assemblyName.Version >= new Version(1, 1, 0, 0) && assemblyName.Version < new Version(2, 0, 0, 0)) {
-                    try {
-                        if (!oldHarmonyStateTransferred) {
-                            oldHarmonyStateTransferred = true;
-                            var patcher = new Harmony1StateTransfer(harmony, assembly);
-                            patcher.Patch();
-                        } else {
-                            Harmony1SelfPatcher.Apply(harmony, assembly);
+                if (assemblyName.Name == "0Harmony") {
+                    if(assemblyName.Version < new Version(1, 1, 0, 0)) {
+                        UnityEngine.Debug.Log($"Detected stone age version of Harmony ({assemblyName.Version}). Skipping this one!");
+                    } else if(assemblyName.Version < new Version(1, 3, 0, 0)) {
+                        try {
+                            if (!oldHarmonyStateTransferred) {
+                                oldHarmonyStateTransferred = true;
+                                var patcher = new Harmony1StateTransfer(harmony, assembly);
+                                patcher.Patch();
+                            } else {
+                                Harmony1SelfPatcher.Apply(harmony, assembly);
+                            }
+                        } catch (Exception e) {
+                            UnityEngine.Debug.LogException(e);
                         }
-                    } catch (Exception e) {
-                        UnityEngine.Debug.LogException(e);
+                    } else {
+                        UnityEngine.Debug.LogError($"Detected conflicting Harmony 2.x assembly ({assemblyName.Version})!");
                     }
                 }
             }
