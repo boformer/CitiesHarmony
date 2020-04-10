@@ -107,6 +107,8 @@ namespace CitiesHarmony {
                 HarmonyInstance_Unpatch.Invoke(oldInstance, new object[] { method, HarmonyPatchType_All, null });
             }
 
+            // Reset is not needed while we are using a Harmony 2 fork that uses a different assembly name!
+            /*
             // Reset shared state
             var sharedStateAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name.Contains("HarmonySharedState"));
             if (sharedStateAssembly != null) {
@@ -116,10 +118,12 @@ namespace CitiesHarmony {
                     stateField.SetValue(null, null);
                 }
             }
+            */
 
-            // Apply patches to old harmony
+            // Apply patches to old Harmony
             Harmony1SelfPatcher.Apply(harmony, assembly);
 
+            // Apply patches using Harmony 2.x
             foreach (var processor in processors) {
                 processor.Patch();
             }

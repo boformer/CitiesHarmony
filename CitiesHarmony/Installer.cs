@@ -53,7 +53,7 @@ namespace CitiesHarmony {
             }
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            Array.Sort(assemblies, (a, b) => -a.GetName().Version.CompareTo(b.GetName().Version)); // higher harmony versions first!
+            Array.Sort(assemblies, (a, b) => -a.GetName().Version.CompareTo(b.GetName().Version)); // higher Harmony versions first!
 
             foreach (var assembly in assemblies) ProcessAssembly(assembly);
 
