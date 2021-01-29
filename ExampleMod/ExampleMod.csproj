@@ -26,7 +26,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CitiesHarmony.API" Version="1.0.4" />
+    <PackageReference Include="CitiesHarmony.API" Version="1.0.6" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>

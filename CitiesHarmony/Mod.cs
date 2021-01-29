@@ -6,7 +6,7 @@ namespace CitiesHarmony {
 
         public string Description => "Mod Dependency";
 
-        // comment out to install harmony right at the begining.
+        // Install Harmony as soon as possible to avoid problems with mods not following the guidelines
         static Mod() => Installer.Run();
     }
 }
