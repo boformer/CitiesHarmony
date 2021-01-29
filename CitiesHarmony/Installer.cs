@@ -23,11 +23,12 @@ namespace CitiesHarmony {
                 // Create a marker to ensure that this code only runs once
                 UnityEngine.Object.DontDestroyOnLoad(new UnityEngine.GameObject(PatchedMarker));
                 
-                var harmony = new Harmony("CitiesHarmony");
-
                 // Patch assembly resolver to make sure that missing 2.x Harmony assembly references are never resolved to 1.x Harmony!
                 // This will naturally occur when this mod gets updated to newer Harmony versions.
+                // This should be done before we use harmony because harmony itself needs assembly resolver.
                 Resolver.InstallHarmonyResolver();
+
+                var harmony = new Harmony("CitiesHarmony");
 
                 // Self-patch Harmony 1.x assemblies
                 var oldHarmonyStateTransferred = false;
@@ -51,6 +52,7 @@ namespace CitiesHarmony {
                                     }
                                 } catch (Exception e) {
                                     UnityEngine.Debug.LogException(e);
+                                    throw e;
                                 }
                             } else {
                                 UnityEngine.Debug.LogError($"Detected conflicting Harmony 2.x assembly ({assemblyName.Version})!");
@@ -58,6 +60,7 @@ namespace CitiesHarmony {
                         }
                     } catch (Exception e) {
                         UnityEngine.Debug.LogException(e);
+                        throw e;
                     }
                 }
 
@@ -72,6 +75,7 @@ namespace CitiesHarmony {
                 UnityEngine.Debug.Log($"Installed Harmony {typeof(Harmony).GetAssemblyVersion()} successfully!");
             } catch (Exception e) {
                 UnityEngine.Debug.LogException(e);
+                throw e;
             }
         }
     }
