@@ -6,11 +6,11 @@
     <Company>boformer</Company>
     <Description>Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop</Description>
     <Copyright>Copyright 2020 boformer</Copyright>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
-    <PackageReleaseNotes>Detect Steam Workshop download failures/manual workshop file deletions and display warning to user</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to Harmony 2.0.4</PackageReleaseNotes>
     <PackageTags>Games Modding Patching</PackageTags>
     <PackageIcon>package_icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -37,7 +37,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Lib.Harmony" Version="[2.0.1]">
+    <PackageReference Include="Lib.Harmony" Version="[2.0.4]">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
