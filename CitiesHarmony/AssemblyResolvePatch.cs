@@ -22,20 +22,8 @@ namespace CitiesHarmony {
         }
 
         private static bool CurrentDomain_AssemblyResolve__Prefix(ResolveEventArgs args, ref Assembly __result) {
-            try {
-                var assemblyName = new AssemblyName(args.Name);
-                if (assemblyName.Name == "0Harmony" && assemblyName.Version >= MinResolvableHarmonyVersion && assemblyName.Version <= typeof(Harmony).GetAssemblyVersion()) {
-                    __result = typeof(Harmony).Assembly;
-
-                    UnityEngine.Debug.Log($"Resolved '{args.Name}' to {__result}");
-
-                    return false; // cancel original method
-                }
-            } catch (Exception e) {
-                UnityEngine.Debug.LogException(e);
-            }
-
-            return true; // run original method
+            __result = Resolver.ResolveHarmony(null, args);
+            return __result == null; // if unsuccessful, run original method.
         }
     }
 }
