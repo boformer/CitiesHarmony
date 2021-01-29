@@ -29,7 +29,9 @@
         {
             try {
                 if(IsHarmony2(new AssemblyName(args.Name))) {
+#if DEBUG
                     UnityEngine.Debug.Log($"[CitiesHarmony] resolving '{args.Name}' ...");
+#endif
                     var ret = GetHarmony2();
                     UnityEngine.Debug.Log($"[CitiesHarmony] Resolved '{args.Name}' to {ret}");
                     return ret;
