@@ -27,7 +27,7 @@ namespace CitiesHarmony {
 
                 // Patch assembly resolver to make sure that missing 2.x Harmony assembly references are never resolved to 1.x Harmony!
                 // This will naturally occur when this mod gets updated to newer Harmony versions.
-                AssemblyResolvePatch.Apply(harmony);
+                Resolver.InstallHarmonyResolver();
 
                 // Self-patch Harmony 1.x assemblies
                 var oldHarmonyStateTransferred = false;
@@ -68,6 +68,8 @@ namespace CitiesHarmony {
 
                 // Process all assemblies that are loaded after this
                 AppDomain.CurrentDomain.AssemblyLoad += (object sender, AssemblyLoadEventArgs args) => ProcessAssembly(args.LoadedAssembly);
+
+                UnityEngine.Debug.Log($"Installed Harmony {typeof(Harmony).GetAssemblyVersion()} successfully!");
             } catch (Exception e) {
                 UnityEngine.Debug.LogException(e);
             }

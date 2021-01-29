@@ -6,6 +6,24 @@
     public static class Resolver {
         private static readonly Version MinHarmonyVersionToHandle = new Version(2, 0, 0, 8);
         const string HarmonyName = "0Harmony";
+        public static void InstallHarmonyResolver()
+        {
+            UnityEngine.Debug.Log($"[CitiesHarmony] InstallHarmonyResolver() called ...");
+            var mCSResolver = 
+                typeof(BuildConfig)
+                .GetMethod("CurrentDomain_AssemblyResolve", BindingFlags.NonPublic | BindingFlags.Static);
+            ResolveEventHandler dCSResolver =
+                (ResolveEventHandler)Delegate.CreateDelegate(typeof(ResolveEventHandler), mCSResolver);
+
+            AppDomain.CurrentDomain.AssemblyResolve -= dCSResolver;
+            AppDomain.CurrentDomain.TypeResolve -= dCSResolver;
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveHarmony;
+            AppDomain.CurrentDomain.TypeResolve += ResolveHarmony;
+            AppDomain.CurrentDomain.AssemblyResolve += dCSResolver;
+            AppDomain.CurrentDomain.TypeResolve += dCSResolver;
+
+            UnityEngine.Debug.Log($"[CitiesHarmony] InstallHarmonyResolver() successfull!");
+        }
 
         public static Assembly ResolveHarmony(object sender, ResolveEventArgs args)
         {
