@@ -1,0 +1,38 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}</ProjectGuid>
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyTitle>remove stone age harmony dlls</AssemblyTitle>
+    <Company>boformer</Company>
+    <Description>Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop</Description>
+    <Copyright>Copyright 2020 boformer</Copyright>
+    <Version>1.0.6</Version>
+    <Authors>boformer</Authors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\libs\0Harmony1.2.0.1.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Patch.API">
+      <HintPath>..\libs\Patch.API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.10.3" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <Target Name="DeployToModDirectory" AfterTargets="Build">
+    <PropertyGroup>
+      <ModDirectory>$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\</ModDirectory>
+    </PropertyGroup>
+    <ItemGroup>
+      <ModFiles Include="$(TargetPath);$(TargetDir)Patch.API.dll;$(TargetDir)0Harmony*.dll;$(TargetDir)Mono.Cecil.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ModFiles)" DestinationFolder="$(ModDirectory)" />
+  </Target>
+</Project>
