@@ -24,8 +24,8 @@
       <HintPath>C:\References\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="0Harmony">
-      <HintPath>..\libs\0Harmony.dll</HintPath>
+    <Reference Include="CitiesHarmony.0Harmony">
+      <HintPath>..\libs\CitiesHarmony.0Harmony.dll</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>
