@@ -1,3 +1,12 @@
+# Usage Warning
+Please do this to avoid intermittent errors based on load order:
+```
+DO NOT use fields with Harmony types.
+DO NOT use use AccessTools in static fields or static constructors
+DO use DoOnHarmonyInstalled/EnsureHarmony
+```
+Please read see the example mod for more info.
+
 # CitiesHarmony
 
 [![NuGet Badge](https://buildstats.info/nuget/CitiesHarmony.API)](https://www.nuget.org/packages/CitiesHarmony.API/)
