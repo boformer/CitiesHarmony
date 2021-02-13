@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace ExampleMod {
     public class Mod : IUserMod {        
-        // You can add Harmony 2.0.0.9 as a dependency, but make sure that 0Harmony.dll is not copied to the output directory!
+        // You can add Harmony 2.0.4 as a dependency, but make sure that 0Harmony.dll is not copied to the output directory!
         // (0Harmony.dll is provided by CitiesHarmony workshop item)
 
         // Also make sure that HarmonyLib is not referenced in any way in your IUserMod implementation!
