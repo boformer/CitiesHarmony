@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesHarmony", "CitiesHarmony\CitiesHarmony.csproj", "{1821BC25-9494-40B7-8229-945C60C16BC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony", "CitiesHarmony\CitiesHarmony.csproj", "{1821BC25-9494-40B7-8229-945C60C16BC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesHarmony.API", "CitiesHarmony.API\CitiesHarmony.API.csproj", "{A3462C5B-B9A4-4154-9855-F3025E943946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.API", "CitiesHarmony.API\CitiesHarmony.API.csproj", "{A3462C5B-B9A4-4154-9855-F3025E943946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleMod", "ExampleMod\ExampleMod.csproj", "{961A70CE-8B6C-4950-A845-E215F07D0CC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleMod", "ExampleMod\ExampleMod.csproj", "{961A70CE-8B6C-4950-A845-E215F07D0CC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesHarmony.Tests", "CitiesHarmony.Tests\CitiesHarmony.Tests.csproj", "{47363338-1B57-467C-93B9-DD9FB293AF27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.Tests", "CitiesHarmony.Tests\CitiesHarmony.Tests.csproj", "{47363338-1B57-467C-93B9-DD9FB293AF27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.AssemblyResolveLogger", "CitiesHarmony.AssemblyResolveLogger\CitiesHarmony.AssemblyResolveLogger.csproj", "{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{47363338-1B57-467C-93B9-DD9FB293AF27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47363338-1B57-467C-93B9-DD9FB293AF27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47363338-1B57-467C-93B9-DD9FB293AF27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
