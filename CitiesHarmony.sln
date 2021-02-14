@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.Tests", "Citi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.AssemblyResolveLogger", "CitiesHarmony.AssemblyResolveLogger\CitiesHarmony.AssemblyResolveLogger.csproj", "{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harmony", "Harmony\Harmony\Harmony.csproj", "{352DE353-DDBB-4FC7-A7A6-E03985650420}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A173726-3867-470A-A6E0-6A6B3DE452E3}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +47,10 @@ Global
 		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BD6ECBD-FE4D-4543-8A18-18AE83218D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{352DE353-DDBB-4FC7-A7A6-E03985650420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352DE353-DDBB-4FC7-A7A6-E03985650420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352DE353-DDBB-4FC7-A7A6-E03985650420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352DE353-DDBB-4FC7-A7A6-E03985650420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

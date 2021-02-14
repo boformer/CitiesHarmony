@@ -6,6 +6,8 @@
     public static class Resolver {
         private static readonly Version MinHarmonyVersionToHandle = new Version(2, 0, 0, 8);
         const string HarmonyName = "0Harmony";
+        const string HarmonyForkName = "CitiesHarmony.Harmony";
+
         public static void InstallHarmonyResolver() {
             UnityEngine.Debug.Log($"[CitiesHarmony] InstallHarmonyResolver() called ...");
             var mCSResolver =
@@ -42,7 +44,7 @@
         }
 
         private static bool IsHarmony2(AssemblyName assemblyName) {
-            return assemblyName.Name == HarmonyName &&
+            return (assemblyName.Name == HarmonyName || assemblyName.Name == HarmonyForkName) &&
                    assemblyName.Version >= MinHarmonyVersionToHandle;
         }
 

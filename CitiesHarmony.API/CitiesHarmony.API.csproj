@@ -4,14 +4,18 @@
     <TargetFramework>net35</TargetFramework>
     <AssemblyTitle>Lib.Harmony Helper for Cities: Skylines</AssemblyTitle>
     <Company>boformer</Company>
-    <Description>Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop</Description>
+    <Description>
+      Lib.Harmony Helper for Cities: Skylines.
+      Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop
+    </Description>
     <Copyright>Copyright 2020 boformer</Copyright>
-    <Version>1.0.6</Version>
+    <Version>2.0.0</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
+    <PackageVersion>2.0.0-rc</PackageVersion>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
-    <PackageReleaseNotes>Updated to Harmony 2.0.4</PackageReleaseNotes>
-    <PackageTags>Games Modding Patching</PackageTags>
+    <PackageReleaseNotes>Switched to a fork of Harmony with a different assembly name to avoid assembly resolution problems</PackageReleaseNotes>
+    <PackageTags>Games;Modding;Patching</PackageTags>
     <PackageIcon>package_icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
@@ -37,9 +41,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Lib.Harmony" Version="[2.0.4]">
+    <ProjectReference Include="..\Harmony\Harmony\Harmony.csproj">
       <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
