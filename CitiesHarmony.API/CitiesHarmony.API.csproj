@@ -17,6 +17,7 @@
     <PackageReleaseNotes>Switched to a fork of Harmony with a different assembly name to avoid assembly resolution problems</PackageReleaseNotes>
     <PackageTags>Games;Modding;Patching</PackageTags>
     <PackageIcon>package_icon.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>

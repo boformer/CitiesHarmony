@@ -6,9 +6,9 @@ This C:SL mod provides Andreas Pardeike's [Harmony patching library](https://git
 
 It hotpatches older Harmony versions (1.2.0.1 and 1.1.0.0) and adds limited cross-compatibility for Harmony 1.0.9.1. All of those versions are still used by various mods. The patching is necessary because Harmony 1.x is incompatible with 2.x.
 
-The bundled `0Harmony.dll` contains additional bug fixes that are specific to the mono runtime of Cities: Skylines.
+The bundled `CitiesHarmony.Harmony.dll` (a fork of `0Harmony.dll`) contains additional bug fixes that are specific to the mono runtime of Cities: Skylines.
 
-The associated Steam workshop item will be updated to the latest stable Harmony 2.x version in periodic intervals. By relying on a single `0Harmony.dll` for all mods, we can make sure that all mods use the latest version it that includes all bug fixes.
+The associated Steam workshop item will be updated to the latest stable Harmony 2.x version in periodic intervals. By relying on a single `CitiesHarmony.Harmony.dll` for all mods, we can make sure that all mods use the latest version it that includes all bug fixes.
 
 **By using auto-subscription, it is possible to migrate existing mods to Harmony 2.x without causing disruptions for users!**
 
@@ -21,13 +21,13 @@ To use Harmony 2.x in your mod, add the [CitiesHarmony.API](https://www.nuget.or
 Make sure that when you build your mod:
 
 * The `CitiesHarmony.API.dll` is copied to the AppData mod directory
-* The `0Harmony.dll` is **not** copied to the AppData mod directory (it is provided by the central Harmony mod)
+* The `CitiesHarmony.Harmony.dll` is **not** copied to the AppData mod directory (it is provided by the central Harmony mod)
 
 Depending on the version of Visual Studio, the project style and the post-build script you are using, there are different ways to achieve that:
 
-* If you are manually copying the assemblies to AppData mod directory, make sure to copy only the DLL of your mod and the `CitiesHarmony.API.dll`, **not** the `0Harmony.dll`.
-* If you are using the old Visual Studio project style (packages.config) with a post-build script, set "Local Copy" to true for `CitiesHarmony.API` reference and to **false** for `0Harmony` reference.
-* If you are using the new Visual Studio project style (like the example mod in this repository) with a post-build target, no action is required after installing the Nuget package! It is configured so that `0Harmony` is not copied to the target directory.
+* If you are manually copying the assemblies to AppData mod directory, make sure to copy only the DLL of your mod and the `CitiesHarmony.API.dll`, **not** the `CitiesHarmony.Harmony.dll`.
+* If you are using the old Visual Studio project style (packages.config) with a post-build script, set "Local Copy" to true for `CitiesHarmony.API` reference and to **false** for `CitiesHarmony.Harmony` reference.
+* If you are using the new Visual Studio project style (like the example mod in this repository) with a post-build target, no action is required after installing the Nuget package! It is configured so that `CitiesHarmony.Harmony` is not copied to the target directory.
 
 ### API Usage
 

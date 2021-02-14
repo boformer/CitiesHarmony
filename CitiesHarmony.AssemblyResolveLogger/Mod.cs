@@ -31,7 +31,7 @@ namespace CitiesHarmony.AssemblyResolveLogger
         }
 
         private static Assembly LogAssemblyResolve(object sender, ResolveEventArgs args) {
-            if (args.Name.Contains("0Harmony")) {
+            if (args.Name.Contains("0Harmony") || args.Name.Contains("CitiesHarmony.Harmony")) {
                 UnityEngine.Debug.Log($"[AssemblyResolveLogger] Resolving '{args.Name}' from:\n{Environment.StackTrace}");
             }
             return null;
