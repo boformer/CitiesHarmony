@@ -12,7 +12,7 @@
     <Version>2.0.0</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
-    <PackageVersion>2.0.0-rc</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
     <PackageReleaseNotes>Switched to a fork of Harmony with a different assembly name to avoid assembly resolution problems</PackageReleaseNotes>
     <PackageTags>Games;Modding;Patching</PackageTags>
@@ -44,6 +44,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Harmony\Harmony\Harmony.csproj">
       <ExcludeAssets>runtime</ExcludeAssets>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

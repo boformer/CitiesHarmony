@@ -26,8 +26,8 @@ Make sure that when you build your mod:
 Depending on the version of Visual Studio, the project style and the post-build script you are using, there are different ways to achieve that:
 
 * If you are manually copying the assemblies to AppData mod directory, make sure to copy only the DLL of your mod and the `CitiesHarmony.API.dll`, **not** the `CitiesHarmony.Harmony.dll`.
-* If you are using the old Visual Studio project style (packages.config) with a post-build script, set "Local Copy" to true for `CitiesHarmony.API` reference and to **false** for `CitiesHarmony.Harmony` reference.
-* If you are using the new Visual Studio project style (like the example mod in this repository) with a post-build target, no action is required after installing the Nuget package! It is configured so that `CitiesHarmony.Harmony` is not copied to the target directory.
+* If you are using the old Visual Studio project style (packages.config) with a post-build script, set "Local Copy" to true for `CitiesHarmony.API` reference and to **false** for `CitiesHarmony.Harmony` reference (check out the example in `ExampleMod.OldStyle` folder).
+* If you are using the new Visual Studio project style (like the example mod in this repository) with a post-build target, no action is required after installing the Nuget package! It is configured so that `CitiesHarmony.Harmony` is not copied to the target directory (check out the example in `ExampleMod` folder).
 
 ### API Usage
 

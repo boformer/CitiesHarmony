@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace CitiesHarmony.API {
     public static class HarmonyHelper {
-        private const ulong CitiesHarmonyWorkshopId = 2040656402uL;
+        internal const ulong CitiesHarmonyWorkshopId = 2040656402uL;
 
         private static bool _workshopItemInstalledSubscribed = false;
         private static List<Action> _harmonyReadyActions = new List<Action>();
@@ -15,7 +15,7 @@ namespace CitiesHarmony.API {
 
         public static void EnsureHarmonyInstalled() {
             if (!IsHarmonyInstalled) {
-                InstallHarmonyWorkshopItem();
+                SubscriptionPrompt.ShowOnce();
             }
         }
 
@@ -30,7 +30,7 @@ namespace CitiesHarmony.API {
                     PlatformService.workshop.eventWorkshopItemInstalled += OnWorkshopItemInstalled;
                 }
 
-                InstallHarmonyWorkshopItem();
+                SubscriptionPrompt.ShowOnce();
             }
         }
 
@@ -43,40 +43,6 @@ namespace CitiesHarmony.API {
         }
 
         private static bool SteamWorkshopAvailable => PlatformService.platformType == PlatformType.Steam && !PluginManager.noWorkshop;
-
-        private static void InstallHarmonyWorkshopItem() {
-            // TODO show error message to the user
-
-            if (PlatformService.platformType != PlatformType.Steam) {
-                UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony on platforms other than Steam!");
-                SubscriptionWarning.ShowOnce();
-                return;
-            }
-
-            if (PluginManager.noWorkshop) {
-                UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony in --noWorkshop mode!");
-                SubscriptionWarning.ShowOnce();
-                return;
-            }
-
-            if(!PlatformService.workshop.IsAvailable()) {
-                UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony while workshop is not available");
-                SubscriptionWarning.ShowOnce();
-                return;
-            }
-
-
-            if(IsCitiesHarmonyWorkshopItemSubscribed) {
-                UnityEngine.Debug.LogError("CitiesHarmony workshop item is subscribed, but assembly is not loaded!");
-                SubscriptionWarning.ShowOnce();
-                return;
-            }
-
-            UnityEngine.Debug.Log("Subscribing to CitiesHarmony workshop item!");
-            if (!PlatformService.workshop.Subscribe(new PublishedFileId(CitiesHarmonyWorkshopId))) {
-                SubscriptionWarning.ShowOnce();
-            }
-        }
 
         private static void OnWorkshopItemInstalled(PublishedFileId id) {
             if (id.AsUInt64 == CitiesHarmonyWorkshopId) {
