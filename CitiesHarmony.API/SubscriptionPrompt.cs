@@ -25,15 +25,17 @@ namespace CitiesHarmony.API {
 
         private static void OnIntroLoaded() {
             LoadingManager.instance.m_introLoaded -= OnIntroLoaded;
-            Show();
-        }
-
-        private static void OnLevelLoaded(SimulationManager.UpdateMode updateMode) {
             LoadingManager.instance.m_levelLoaded -= OnLevelLoaded;
             Show();
         }
 
-        public static void Show() {
+        private static void OnLevelLoaded(SimulationManager.UpdateMode updateMode) {
+            LoadingManager.instance.m_introLoaded -= OnIntroLoaded;
+            LoadingManager.instance.m_levelLoaded -= OnLevelLoaded;
+            Show();
+        }
+
+        private static void Show() {
             if (PlatformService.platformType != PlatformType.Steam) {
                 UnityEngine.Debug.LogError("Cannot auto-subscribe CitiesHarmony on platforms other than Steam!");
                 ShowError("Harmony could not be installed automatically because you are using a platform other than Steam.",
