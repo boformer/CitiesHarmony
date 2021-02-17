@@ -1,8 +1,7 @@
-﻿namespace CitiesHarmony {
-    using System;
-    using System.Linq;
-    using System.Reflection;
+﻿using System;
+using System.Reflection;
 
+namespace CitiesHarmony {
     public static class Resolver {
         private static readonly Version MinHarmonyVersionToHandle = new Version(2, 0, 0, 8);
         const string HarmonyName = "0Harmony";
