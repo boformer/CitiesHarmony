@@ -139,7 +139,12 @@ namespace CitiesHarmony {
             var before = (string[])Patch_before.GetValue(patch);
             var after = (string[])Patch_after.GetValue(patch);
             var method = (MethodInfo)Patch_patch.GetValue(patch);
-            return new HarmonyMethod(method, priority, before, after);
+
+            if (!method.IsDeclaredMember()) {
+                UnityEngine.Debug.Log($"Attempting to patch non-declared member {method.FullDescription()} (forbidden in Harmony 2.x)! Getting closest declared member for backwards compatibility...");
+            }
+
+            return new HarmonyMethod(method.GetDeclaredMember(), priority, before, after);
         }
     }
 }
