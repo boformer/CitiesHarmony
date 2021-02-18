@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleMod.OldStyle", "ExampleMod.OldStyle\ExampleMod.OldStyle.csproj", "{6C53FFF8-6C41-4A88-9DAA-34F968B0C9AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesHarmony.DomainPoker", "CitiesHarmony.DomainPoker\CitiesHarmony.DomainPoker.csproj", "{2D9AF2D8-AB7F-4023-BBC6-760EB1E11937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.DomainPoker", "CitiesHarmony.DomainPoker\CitiesHarmony.DomainPoker.csproj", "{2D9AF2D8-AB7F-4023-BBC6-760EB1E11937}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesHarmony.IPatch", "CitiesHarmony.IPatch\CitiesHarmony.IPatch.csproj", "{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{2D9AF2D8-AB7F-4023-BBC6-760EB1E11937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D9AF2D8-AB7F-4023-BBC6-760EB1E11937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D9AF2D8-AB7F-4023-BBC6-760EB1E11937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

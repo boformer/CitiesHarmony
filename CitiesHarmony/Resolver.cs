@@ -17,6 +17,8 @@ namespace CitiesHarmony {
 
             AppDomain.CurrentDomain.AssemblyResolve -= dCSResolver;
             AppDomain.CurrentDomain.TypeResolve -= dCSResolver;
+            AppDomain.CurrentDomain.AssemblyResolve -= ResolveHarmony;
+            AppDomain.CurrentDomain.TypeResolve -= ResolveHarmony;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveHarmony;
             AppDomain.CurrentDomain.TypeResolve += ResolveHarmony;
             AppDomain.CurrentDomain.AssemblyResolve += dCSResolver;
@@ -25,7 +27,7 @@ namespace CitiesHarmony {
             UnityEngine.Debug.Log($"[CitiesHarmony] InstallHarmonyResolver() successfull!");
         }
 
-        private static Assembly ResolveHarmony(object sender, ResolveEventArgs args) {
+        public static Assembly ResolveHarmony(object sender, ResolveEventArgs args) {
             try {
                 if (IsHarmony2(new AssemblyName(args.Name))) {
 #if DEBUG
