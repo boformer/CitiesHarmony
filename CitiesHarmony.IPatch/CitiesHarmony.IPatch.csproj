@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{A32E0867-9FFA-4F6D-A25A-81B2D0E78465}</ProjectGuid>
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyTitle>CitesHarmony.IPatch</AssemblyTitle>
+    <Company>boformer</Company>
+    <Copyright>Copyright 2021 boformer</Copyright>
+    <Version>1.0.7</Version>
+    <Authors>boformer</Authors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Patch.API">
+		<HintPath>..\libs\Patch.API.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CitiesHarmony\CitiesHarmony.csproj" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <Target Name="DeployToModDirectory" AfterTargets="Build">
+    <PropertyGroup>
+        <ModDirectory>$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\CitiesHarmony\</ModDirectory>
+    </PropertyGroup>
+    <ItemGroup>
+        <ModFiles Include="$(TargetDir)*.*" />
+    </ItemGroup>
+    <RemoveDir Directories="$(ModDirectory)" />
+	<Copy SourceFiles="@(ModFiles)" DestinationFolder="$(ModDirectory)" />
+    </Target>
+</Project>
