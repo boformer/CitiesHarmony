@@ -14,7 +14,7 @@ namespace CitiesHarmony {
             logger_ = logger;
             string workingPath_ = patcherWorkingPath;
 
-            LoadDLL(Path.Combine(workingPath_, "0Harmony.dll"));
+            LoadDLL(Path.Combine(workingPath_, "CitiesHarmony.Harmony.dll"));
             LoadDLL(Path.Combine(workingPath_, "CitiesHarmony.dll"));
             InstallResolver();
 
