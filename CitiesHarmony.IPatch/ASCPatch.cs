@@ -14,7 +14,6 @@ namespace CitiesHarmony {
             _logger = logger;
             var modPath = Path.GetDirectoryName(patcherWorkingPath);
             var harmonyAssembly = LoadDLL(Path.Combine(modPath, "CitiesHarmony.Harmony.dll"));
-            LoadDLL(Path.Combine(modPath, "CitiesHarmony.dll"));
             if(harmonyAssembly != null) InstallResolver(harmonyAssembly);
 
             return assemblyDefinition;
