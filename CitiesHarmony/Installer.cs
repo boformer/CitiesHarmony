@@ -55,7 +55,7 @@ namespace CitiesHarmony {
                                     throw e;
                                 }
                             } else {
-                                UnityEngine.Debug.LogError($"Detected conflicting Harmony 2.x assembly ({assemblyName.Version})!");
+                                //UnityEngine.Debug.LogError($"Detected conflicting Harmony 2.x assembly ({assemblyName.Version})!");
                             }
                         }
                     } catch (Exception e) {
