@@ -73,7 +73,7 @@ namespace CitiesHarmony {
 
             UnityEngine.Debug.Log($"{patchedMethods.Count} patched methods found.");
 
-            var processors = new List<PatchProcessor>();
+            var processors = new List<ProcessorInfo>();
 
             foreach (var method in patchedMethods) {
                 var patchInfo = HarmonySharedState_GetPatchInfo.Invoke(null, new object[] { method });
@@ -81,22 +81,22 @@ namespace CitiesHarmony {
 
                 var prefixes = (object[])PatchInfo_prefixed.GetValue(patchInfo);
                 foreach (var patch in prefixes) {
-                    processors.Add(CreateHarmony(patch)
-                        .CreateProcessor(method)
+                    processors.Add(ProcessorInfo
+                        .Create(CreateHarmony(patch), method)
                         .AddPrefix(CreateHarmonyMethod(patch)));
                 }
 
                 var postfixes = (object[])PatchInfo_postfixes.GetValue(patchInfo);
                 foreach (var patch in postfixes) {
-                    processors.Add(CreateHarmony(patch)
-                        .CreateProcessor(method)
+                    processors.Add(ProcessorInfo
+                        .Create(CreateHarmony(patch), method)
                         .AddPostfix(CreateHarmonyMethod(patch)));
                 }
 
                 var transpilers = (object[])PatchInfo_transpilers.GetValue(patchInfo);
                 foreach (var patch in transpilers) {
-                    processors.Add(CreateHarmony(patch)
-                        .CreateProcessor(method)
+                    processors.Add(ProcessorInfo
+                        .Create(CreateHarmony(patch), method)
                         .AddTranspiler(CreateHarmonyMethod(patch)));
                 }
             }
@@ -125,7 +125,14 @@ namespace CitiesHarmony {
 
             // Apply patches using Harmony 2.x
             foreach (var processor in processors) {
-                processor.Patch();
+                try {
+                    UnityEngine.Debug.Log($"Applying patch for {processor.original.FullDescription()} ({processor.instance.Id})");
+                    processor.Patch();
+                }
+                catch (Exception e) {
+                    UnityEngine.Debug.LogError($"Exception while transferring Harmony 1 patch in {processor.original.FullDescription()} ({processor.instance.Id})");
+                    UnityEngine.Debug.LogException(e);
+                }
             }
         }
 
@@ -145,6 +152,39 @@ namespace CitiesHarmony {
             }
 
             return new HarmonyMethod(method.GetDeclaredMember(), priority, before, after);
+        }
+
+        private class ProcessorInfo {
+            public Harmony instance;
+            public MethodBase original;
+            public PatchProcessor processor;
+
+            public static ProcessorInfo Create(Harmony instance, MethodBase original) {
+                return new ProcessorInfo {
+                    instance = instance,
+                    original = original,
+                    processor = instance.CreateProcessor(original)
+                };
+            }
+
+            public void Patch() {
+                processor.Patch();
+            }
+
+            public ProcessorInfo AddPrefix(HarmonyMethod prefix) {
+                processor.AddPrefix(prefix);
+                return this;
+            }
+
+            public ProcessorInfo AddPostfix(HarmonyMethod postfix) {
+                processor.AddPostfix(postfix);
+                return this;
+            }
+
+            public ProcessorInfo AddTranspiler(HarmonyMethod transpiler) {
+                processor.AddTranspiler(transpiler);
+                return this;
+            }
         }
     }
 }
