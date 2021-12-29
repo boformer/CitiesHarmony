@@ -92,7 +92,7 @@ public static class Patcher {
 
         patched = true;
         var harmony = new Harmony(HarmonyId);
-        harmony.PatchAll(typeof(Patcher).GetType().Assembly); // you can also do manual patching here!
+        harmony.PatchAll(typeof(Patcher).Assembly); // you can also do manual patching here!
     }
 
     public static void UnpatchAll() {
