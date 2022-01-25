@@ -5,7 +5,7 @@ namespace CitiesHarmony
 {
     public class Mod : IUserMod
     {
-        public string Name => $"Harmony 2.0.4-5";
+        public string Name => $"Harmony 2.2-0";
         public string Description => "Mod Dependency";
 
 
