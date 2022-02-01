@@ -9,12 +9,12 @@
       Auto-installs and gives access to the up-to-date Harmony 2.x assembly from the Steam Workshop
     </Description>
     <Copyright>Copyright 2020 boformer</Copyright>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.1.0-rc</PackageVersion>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
-    <PackageReleaseNotes>Switched to a fork of Harmony with a different assembly name to avoid assembly resolution problems</PackageReleaseNotes>
+    <PackageReleaseNotes>Update to Harmony 2.2</PackageReleaseNotes>
     <PackageTags>Games;Modding;Patching</PackageTags>
     <PackageIcon>package_icon.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -24,7 +24,7 @@
     <None Include="package_icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CitiesHarmony.Harmony" Version="[2.0.4]">
+    <PackageReference Include="CitiesHarmony.Harmony" Version="2.2.0-rc">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
