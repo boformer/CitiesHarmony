@@ -12,7 +12,7 @@
     <Version>2.1.0</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
-    <PackageVersion>2.1.0-rc2</PackageVersion>
+    <PackageVersion>2.1.0</PackageVersion>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
     <PackageReleaseNotes>Update to Harmony 2.2</PackageReleaseNotes>
     <PackageTags>Games;Modding;Patching</PackageTags>
