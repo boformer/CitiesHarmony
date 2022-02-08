@@ -8,6 +8,8 @@ namespace CitiesHarmony.API
 {
     public static class HarmonyHelper
     {
+        public static Version MinHarmonyVersion => new Version(2, 2, 0, 0);
+
         internal const ulong CitiesHarmonyWorkshopId = 2040656402uL;
 
         private static bool _workshopItemInstalledSubscribed = false;
@@ -45,13 +47,59 @@ namespace CitiesHarmony.API
 
         private static bool InvokeHarmonyInstaller()
         {
-            var installerRunMethod = Type.GetType("CitiesHarmony.Installer, CitiesHarmony", false)?.GetMethod("Run", BindingFlags.Public | BindingFlags.Static);
-            if (installerRunMethod == null) 
+            var installerRunMethod = GetInstallerRunMethod();
+            if (installerRunMethod == null)
                 return false;
 
             installerRunMethod.Invoke(null, new object[0]);
+
+            if (!IsCurrentHarmonyVersionLoaded)
+                return false;
+
             return true;
         }
+
+        internal static bool IsInstallerLoaded => GetInstallerRunMethod() != null;
+
+        private static MethodInfo GetInstallerRunMethod()
+        {
+            return Type.GetType("CitiesHarmony.Installer, CitiesHarmony", false)?.GetMethod("Run", BindingFlags.Public | BindingFlags.Static);
+        }
+
+        internal static bool IsCurrentHarmonyVersionLoaded => GetLoadedHarmonyVersion() >= MinHarmonyVersion;
+
+        internal static Version GetLoadedHarmonyVersion()
+        {
+            try
+            {
+                // we are using this dict from PluginManager to get the assembly locations
+                // (assembly.Location and assembly.CodeBase return empty/incorrect paths)
+                var assemblyLocationsField = typeof(PluginManager).GetField("m_AssemblyLocations", BindingFlags.NonPublic | BindingFlags.Instance);
+                var assemblyLocations = (Dictionary<Assembly, string>)assemblyLocationsField.GetValue(PluginManager.instance);
+                Version result = default;
+                foreach (var pair in assemblyLocations)
+                {
+                    var assemblyName = pair.Key.GetName();
+                    if ((assemblyName.Name == "CitiesHarmony.Harmony") && assemblyName.Version.Major >= 2)
+                    {
+                        // we are using the file version to determine the minor version
+                        // because increasing the assembly version breaks the game's assembly resolution
+                        // (we are stuck at assembly version 2.0.4.0 forever)
+                        var fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(pair.Value);
+                        var fileVersion = new Version(fvi.FileVersion);
+                        if (result == default || fileVersion < result)
+                            result = fileVersion;
+                    }
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogException(e);
+                return MinHarmonyVersion; // safety in case future game code changes are breaking this
+            }
+        }
+
 
         private static bool SteamWorkshopAvailable => PlatformService.platformType == PlatformType.Steam && !PluginManager.noWorkshop;
 

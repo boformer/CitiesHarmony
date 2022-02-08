@@ -12,7 +12,7 @@
     <Version>2.1.0</Version>
     <Authors>boformer</Authors>
     <PackageId>CitiesHarmony.API</PackageId>
-    <PackageVersion>2.1.0-rc</PackageVersion>
+    <PackageVersion>2.1.0-rc2</PackageVersion>
     <PackageProjectUrl>https://github.com/boformer/CitiesHarmony</PackageProjectUrl>
     <PackageReleaseNotes>Update to Harmony 2.2</PackageReleaseNotes>
     <PackageTags>Games;Modding;Patching</PackageTags>
@@ -24,7 +24,7 @@
     <None Include="package_icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CitiesHarmony.Harmony" Version="2.2.0-rc">
+    <PackageReference Include="CitiesHarmony.Harmony" Version="2.2.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
