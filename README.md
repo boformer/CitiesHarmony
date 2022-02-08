@@ -2,7 +2,7 @@
 
 [![NuGet Badge](https://buildstats.info/nuget/CitiesHarmony.API)](https://www.nuget.org/packages/CitiesHarmony.API/)
 
-This C:SL mod provides Andreas Pardeike's [Harmony patching library](https://github.com/pardeike/Harmony) (version 2.0.4) to all mods that require it.
+This C:SL mod provides Andreas Pardeike's [Harmony patching library](https://github.com/pardeike/Harmony) (version 2.2) to all mods that require it.
 
 It hotpatches older Harmony versions (1.2.0.1 and 1.1.0.0) and adds limited cross-compatibility for Harmony 1.0.9.1. All of those versions are still used by various mods. The patching is necessary because Harmony 1.x is incompatible with 2.x.
 
