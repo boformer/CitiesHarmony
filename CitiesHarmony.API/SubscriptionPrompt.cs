@@ -168,13 +168,13 @@ namespace CitiesHarmony.API
             {
                 UnityEngine.Debug.LogError("CitiesHarmony workshop item is subscribed, but assembly is not loaded or outdated!");
                 reason = "It seems that Harmony has already been subscribed, but Steam failed to download the files correctly or they were deleted.";
-                solution = "uninstall all local or alternative versions of the Harmony mod, then (re)subscribe the Harmony workshop item from steamcommunity.com/sharedfiles/filedetails/?id=2040656402";
+                solution = "uninstall all local or alternative versions of the Harmony mod, then (re)subscribe to the Harmony workshop item from steamcommunity.com/sharedfiles/filedetails/?id=2040656402";
                 return false;
             }
 
 
             reason = "";
-            solution = "uninstall all local or alternative versions of the Harmony mod, then (re)subscribe the Harmony workshop item from steamcommunity.com/sharedfiles/filedetails/?id=2040656402";
+            solution = "uninstall all local or alternative versions of the Harmony mod, then (re)subscribe to the Harmony workshop item from steamcommunity.com/sharedfiles/filedetails/?id=2040656402";
             return true;
         }
 
