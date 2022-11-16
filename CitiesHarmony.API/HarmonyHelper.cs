@@ -8,7 +8,7 @@ namespace CitiesHarmony.API
 {
     public static class HarmonyHelper
     {
-        public static Version MinHarmonyVersion => new Version(2, 2, 0, 0);
+        public static Version MinHarmonyVersion => new Version(2, 2, 2, 0);
 
         internal const ulong CitiesHarmonyWorkshopId = 2040656402uL;
 
