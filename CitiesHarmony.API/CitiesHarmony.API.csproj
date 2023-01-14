@@ -19,12 +19,14 @@
     <PackageIcon>package_icon.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="package_icon.png" Pack="true" PackagePath="" />
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CitiesHarmony.Harmony" Version="2.2.0">
+    <PackageReference Include="CitiesHarmony.Harmony" Version="2.2.2">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
