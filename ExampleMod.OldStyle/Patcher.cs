@@ -16,7 +16,7 @@ namespace ExampleMod {
 
             // Apply your patches here!
             // Harmony.DEBUG = true;
-            var harmony = new Harmony("boformer.Harmony2Example");
+            var harmony = new Harmony(HarmonyId);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
